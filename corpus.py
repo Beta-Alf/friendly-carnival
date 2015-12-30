@@ -1,5 +1,8 @@
-from numpy import lil_matrix
+
+import random
 import json
+
+from numpy import lil_matrix
 from bidict import bidict
 
 class Corpus:
@@ -38,3 +41,20 @@ class Corpus:
                 self.matrix[start_index, target_index] = probability
 
 
+    def get_random_next(self, key):
+        """Selects a random follower based on the key and the corpus probabilities"""
+        start_index = self.mapping[key]
+        coloumn = self.matrix.getrowview(start_index)
+        nonzero_indices = coloumn.nonzero()[1]
+
+        rand = random.random()
+
+        for target_index in nonzero_indices:
+            transition_prob = self.matrix[start_index,target_index]
+            if transition_prob > rand:
+                return self.mapping.inv(target_index)
+            else:
+                rand -= transition_prob
+
+        #one should never land here
+        raise Exception("Not enough possibilities for " + str(key)
