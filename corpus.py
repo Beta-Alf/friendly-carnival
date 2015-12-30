@@ -11,7 +11,7 @@ class Corpus:
         corpus_data = json.load(corpus_file)
         corpus_file.close()
 
-        if not corpus_data is dict:
+        if not type(corpus_data) is dict:
             raise Exception("Invalid Corpus Format")
 
         num_keys = len(corpus_data)
@@ -22,7 +22,7 @@ class Corpus:
 
         for cur_key, cur_dict in corpus_data.items():
 
-            if not cur_dict is dict:
+            if not type(cur_dict) is dict:
                 raise Exception("Invalid Corpus Format")
 
             if not cur_key in self.mapping:
@@ -31,7 +31,7 @@ class Corpus:
             
             start_index = self.mapping[cur_key]
 
-            for target, probability in cur_dict:
+            for target, probability in cur_dict.items():
                 if not target in self.mapping:
                     self.mapping[target] = highest_empty_index
                     highest_empty_index += 1
@@ -52,7 +52,7 @@ class Corpus:
         for target_index in nonzero_indices:
             transition_prob = self.matrix[start_index,target_index]
             if transition_prob > rand:
-                return self.mapping.inv(target_index)
+                return self.mapping.inv[target_index]
             else:
                 rand -= transition_prob
 
