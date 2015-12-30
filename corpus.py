@@ -2,7 +2,7 @@
 import random
 import json
 
-from numpy import lil_matrix
+from scipy.sparse import lil_matrix
 from bidict import bidict
 
 class Corpus:
