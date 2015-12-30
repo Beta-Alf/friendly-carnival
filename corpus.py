@@ -57,4 +57,4 @@ class Corpus:
                 rand -= transition_prob
 
         #one should never land here
-        raise Exception("Not enough possibilities for " + str(key)
+        raise Exception("Not enough possibilities for " + str(key))
